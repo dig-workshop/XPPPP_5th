@@ -1,9 +1,55 @@
 package com.example.xpppp_for_kouhai_devs.smart_home_tdd.right
-//ヒント
-//DIPの講義で使用したCarのコードを参考にしましょう。
-//wrongフォルダに良くない例としてスマートホームのサンプルコードを示してあります。
-//サンプルコード（wrongフォルダ内）を良くみてDIPに則った形に書き直してください。
-//まずは必要なインターフェースを実装しましょう
-//次にアキラくんの家（class AkiraHouse)を宣言し実装しましょう
-//アキラくんの家はSmartHomeのインターフェースを継承する形で定義してください。
-//アキラくんの家は依存関係を注入できるようにコンストラクターの引数を設定しましょう。
+
+import java.util.Timer
+import kotlin.concurrent.schedule
+
+interface Bulb {
+    fun turnOn()
+    fun turnOff()
+    fun updateUsage(count: Int)
+    fun bulbWarningReset()
+    val bulbWarning: Boolean
+}
+
+interface Switch {
+    fun isOn(): Boolean
+    fun isOnCounterReset()
+    val isOnTimesCounter: Int
+}
+
+interface InfoDisplay {
+    fun displayBulbWarning()
+}
+
+interface BulbTimer{
+    fun autoTurnOffBulb(bulb: Bulb)
+}
+
+class AkiraHouse(
+    private val bulb: Bulb,
+    private val switch: Switch,
+    private val infoDisplay: InfoDisplay,
+    private val bulbTimer: BulbTimerImpl
+) : SmartHome {
+    override fun run() {
+        lighting(bulb, switch)
+        bulb.updateUsage(switch.isOnTimesCounter)
+        if (bulb.bulbWarning) {
+            infoDisplay.displayBulbWarning()
+        }
+    }
+
+    private fun lighting(bulb: Bulb, switch: Switch) {
+        if (switch.isOn()) {
+            bulb.turnOn()
+            bulbTimer.autoTurnOffBulb(bulb)
+        } else {
+            bulb.turnOff()
+        }
+    }
+
+    override fun resetBulb() {
+        switch.isOnCounterReset()
+        bulb.bulbWarningReset()
+    }
+}
