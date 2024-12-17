@@ -18,8 +18,4 @@ class S9000Test {
         // assert
         assertEquals(3, switch.isOnTimesCounter)
     }
-
-    //ここにテストを記述してください。
-    //必要なTestDoubleは自分たちで設定しましょう。
-    //TestDoubleを作るのにmockkなどの便利なライブラリがありますが今回は使用しないでください。
 }

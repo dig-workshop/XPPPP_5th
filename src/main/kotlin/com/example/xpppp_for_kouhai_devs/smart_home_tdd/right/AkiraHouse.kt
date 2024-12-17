@@ -32,14 +32,14 @@ class AkiraHouse(
     private val bulbTimer: BulbTimerImpl
 ) : SmartHome {
     override fun run() {
-        lighting(bulb, switch)
+        lighting()
         bulb.updateUsage(switch.isOnTimesCounter)
         if (bulb.bulbWarning) {
             infoDisplay.displayBulbWarning()
         }
     }
 
-    private fun lighting(bulb: Bulb, switch: Switch) {
+    private fun lighting() {
         if (switch.isOn()) {
             bulb.turnOn()
             bulbTimer.autoTurnOffBulb(bulb)

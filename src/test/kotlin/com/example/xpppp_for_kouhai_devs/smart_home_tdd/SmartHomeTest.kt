@@ -10,7 +10,6 @@ import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 
-@Suppress("RemoveRedundantBackticks")
 class SmartHomeTest {
     @Test
     fun `SmartHomeがSwitchのisOnを正しく呼んでいる`() {
@@ -30,6 +29,7 @@ class SmartHomeTest {
 
     @Test
     fun `switchIsOnCounterが5になったら、bulbWarningをtrueにする`() {
+        // arrange
         val bulb = B9000()
         val stubSwitch = StubSwitch()
         val infoDisplay = SpyInfoDisplay()
